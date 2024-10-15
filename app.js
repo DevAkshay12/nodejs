@@ -1,4 +1,5 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
@@ -6,6 +7,15 @@ const app = express();
 const User = require('./models/userModel');
 
 app.use(express.json());
+
+
+// Enable CORS and allow requests from specific origins (in this case, your frontend at localhost:3001)
+app.use(cors({
+    origin: 'http://localhost:3001', // You can replace this with your production frontend URL later
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true // Allow cookies and auth headers
+}));
+
 
 // Connect to MongoDB using environment variable
 mongoose.connect(process.env.MONGO_URI, {
